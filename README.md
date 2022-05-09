@@ -107,23 +107,24 @@ https://acd31f741ee25a70c0a5287e00570021.web-security-academy.net/login
 
 >> 靶场：https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-multiple-values-in-single-column
     这题和上一题目一样直接给了用户信息：
-    ```text
-    该数据库包含一个名为 的不同表users，其中的列名为username和password。
-    为解决实验室问题，执行SQL 注入 UNION攻击，检索所有用户名和密码，并使用该信息以administrator用户身份登录。
-    ```
-    按照上一题的方法拿到了分成两个页面分别拿到了admin的账户和密码（这回只能输出一个了）（23bg3dp4cvn7mfhyja8j）
-    结果居然登录不了？？？看了下官方的提示
-    ```text
-    使用 Burp Suite 拦截和修改设置产品类别过滤器的请求。
-    确定查询返回的列数以及哪些列包含文本数据。验证查询是否返回两列，其中只有一列包含文本，在category参数中使用如下所示的有效负载：
+```text
+该数据库包含一个名为 的不同表users，其中的列名为username和password。
+为解决实验室问题，执行SQL 注入 UNION攻击，检索所有用户名和密码，并使用该信息以administrator用户身份登录。
+```
 
-    '+UNION+SELECT+NULL,'abc'--
-    使用以下负载来检索users表的内容：
+按照上一题的方法拿到了分成两个页面分别拿到了admin的账户和密码（这回只能输出一个了）（23bg3dp4cvn7mfhyja8j）
+结果居然登录不了？？？看了下官方的提示
+```text
+使用 Burp Suite 拦截和修改设置产品类别过滤器的请求。
+确定查询返回的列数以及哪些列包含文本数据。验证查询是否返回两列，其中只有一列包含文本，在category参数中使用如下所示的有效负载：
 
-    '+UNION+SELECT+NULL,username||'~'||password+FROM+users--
-    验证应用程序的响应是否包含用户名和密码。
-    ```
-    原来||还可以用来输出啊，学到了。最后发现，不是方法的问题，我把密码看错了。
+'+UNION+SELECT+NULL,'abc'--
+使用以下负载来检索users表的内容：
+
+'+UNION+SELECT+NULL,username||'~'||password+FROM+users--
+验证应用程序的响应是否包含用户名和密码。
+```
+原来||还可以用来输出啊，学到了。最后发现，不是方法的问题，我把密码看错了。
 
 ![SQL注入UNION 攻击在单个列中检索多个值](img/SQL%E6%B3%A8%E5%85%A5UNION%20%E6%94%BB%E5%87%BB%E5%9C%A8%E5%8D%95%E4%B8%AA%E5%88%97%E4%B8%AD%E6%A3%80%E7%B4%A2%E5%A4%9A%E4%B8%AA%E5%80%BC.png)
 
