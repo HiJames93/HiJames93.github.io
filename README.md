@@ -127,6 +127,22 @@ https://acd31f741ee25a70c0a5287e00570021.web-security-academy.net/login
 
 ![SQL注入UNION 攻击在单个列中检索多个值](img/SQL%E6%B3%A8%E5%85%A5UNION%20%E6%94%BB%E5%87%BB%E5%9C%A8%E5%8D%95%E4%B8%AA%E5%88%97%E4%B8%AD%E6%A3%80%E7%B4%A2%E5%A4%9A%E4%B8%AA%E5%80%BC.png)
 
+>> 靶场地址：https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-data-from-other-tables
+
+根据提示上说这个环境的数据库包含一个名为 的不同表`users`，其中的列名为`username`和`password`。为解决实验室问题，执行[SQL 注入 UNION](https://portswigger.net/web-security/sql-injection/union-attacks)攻击，检索所有用户名和密码，并使用该信息以`administrator`用户身份登录
+
+但至于这个注入点在哪他也没细说，结合上一题的逻辑（查找可以显示文本的列），我用上一题的注入点试了试
+
+![SQL注入UNION攻击，从其他表中检索数据1](img\SQL注入UNION攻击，从其他表中检索数据1.png)
+
+古德，结合提示刚好两个字段：结果发现居然不行。都到这步了估计是语法的问题，然后挨个检查了下关键字发现是我把union的用法搞错了：[可以使两张毫不相干的表的查询结果拼接在一起输出，前提是两个查询的**列数**要相同。](https://blog.csdn.net/qq_45148387/article/details/116357408)
+
+![SQL注入UNION攻击，从其他表中检索数据2](img\SQL注入UNION攻击，从其他表中检索数据2.png)
+
+然后找了半天发现居然藏在文章里，还以为没查出来，结合提示。要求用admin登录，通关~
+
+![SQL注入UNION攻击，从其他表中检索数据3](img\SQL注入UNION攻击，从其他表中检索数据3.png)
+
 ## CSRF
 **CSRF，其中令牌验证取决于令牌是否存在**
 
